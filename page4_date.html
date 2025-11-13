@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>4. Date Validation (dd-mm-yyyy)</title>
+  <style>body{font-family:system-ui;padding:18px;max-width:720px;margin:auto;}input{padding:8px;margin:6px 0;width:100%}</style>
+</head>
+<body>
+  <h2>4. Date Validation (dd-mm-yyyy)</h2>
+  
+  <form id="form4">
+    <label>Day (dd): <input id="dd" name="dd" placeholder="0-31"></label><br>
+    <label>Month (mm): <input id="mm" name="mm" placeholder="1-12"></label><br>
+    <label>Year (yyyy): <input id="yy" name="yy" placeholder="1900-2016"></label><br>
+    <button type="submit">Validate & Next</button>
+  </form>
+
+  <script>
+  
+function isInteger(n){ return !isNaN(n) && Number.isInteger(Number(n)); }
+
+function validateDateValues(d,m,y){
+  if(d === '' || m === '' || y === '') return 'Date fields cannot be empty.';
+  if(!isInteger(d) || !isInteger(m) || !isInteger(y)) return 'Day, month and year must be integers.';
+  d = parseInt(d,10); m = parseInt(m,10); y = parseInt(y,10);
+  if(d < 0 || d > 31) return 'Day must be between 0 and 31.';
+  if(m < 1 || m > 12) return 'Month must be between 1 and 12.';
+  if(y < 1900 || y > 2016) return 'Year must be between 1900 and 2016.';
+  let maxDay = 31;
+  if(m === 2){
+    let leap = ( (y%4===0 && y%100!==0) || (y%400===0) );
+    maxDay = leap ? 29 : 28;
+  } else if([4,6,9,11].indexOf(m) >= 0){ maxDay = 30; }
+  if(d > maxDay) return 'Day is invalid for the selected month/year.';
+  return '';
+}
+
+document.getElementById('form4').addEventListener('submit', function(e){
+  e.preventDefault();
+  let d = document.getElementById('dd').value.trim();
+  let m = document.getElementById('mm').value.trim();
+  let y = document.getElementById('yy').value.trim();
+  let err = validateDateValues(d,m,y);
+  if(err){ alert(err); return false; }
+  alert('Date is valid! Going to group check page.');
+  window.location.href = 'page5_multicheck.html';
+  return true;
+});
+
+  </script>
+</body>
+</html>

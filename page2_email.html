@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>2. Email Validation</title>
+  <style>body{font-family:system-ui;padding:18px;max-width:720px;margin:auto;}input{padding:8px;margin:6px 0;width:100%}</style>
+</head>
+<body>
+  <h2>2. Email Validation</h2>
+  
+  <form id="form2">
+    <label for="email">Email</label>
+    <input id="email" name="email" placeholder="anything@example.com" />
+    <button type="submit">Validate & Next</button>
+  </form>
+
+  <script>
+  
+function validateEmailValue(email){
+  email = email.trim();
+  if(email === '') return 'Email cannot be empty.';
+  let at = email.indexOf('@');
+  let lastDot = email.lastIndexOf('.');
+  if(at <= 0) return 'Email must contain @ and have text before it.';
+  if(lastDot <= at + 1) return 'Email must contain a dot (.) after @ and at least one character between @ and dot.';
+  if(lastDot >= email.length - 1) return 'Email must have domain after dot.';
+  if(email.indexOf(' ') >= 0) return 'Email cannot contain spaces.';
+  return '';
+}
+
+document.getElementById('form2').addEventListener('submit', function(e){
+  e.preventDefault();
+  let mail = document.getElementById('email').value;
+  let err = validateEmailValue(mail);
+  if(err){ alert(err); return false; }
+  alert('Email is valid! Going to Checkboxes page.');
+  window.location.href = 'page3_checkboxes.html';
+  return true;
+});
+
+  </script>
+</body>
+</html>

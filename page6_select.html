@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>6. Dropdown Must Select</title>
+  <style>body{font-family:system-ui;padding:18px;max-width:720px;margin:auto;}input{padding:8px;margin:6px 0;width:100%}</style>
+</head>
+<body>
+  <h2>6. Dropdown Must Select</h2>
+  
+  <form id="form6">
+    <label for="country">Country</label>
+    <select id="country">
+      <option value="none">-- Select --</option>
+      <option value="bd">Bangladesh</option>
+      <option value="in">India</option>
+      <option value="us">United States</option>
+    </select>
+    <button type="submit">Validate & Next</button>
+  </form>
+
+  <script>
+  
+document.getElementById('form6').addEventListener('submit', function(e){
+  e.preventDefault();
+  let v = document.getElementById('country').value;
+  if(v === 'none'){ alert('Please choose a country.'); return false; }
+  alert('Country selected! Going to UserID & Picture page.');
+  window.location.href = 'page7_user_pic.html';
+  return true;
+});
+
+  </script>
+</body>
+</html>

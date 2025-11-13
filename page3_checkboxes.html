@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>3. Checkboxes (At least one)</title>
+  <style>body{font-family:system-ui;padding:18px;max-width:720px;margin:auto;}input{padding:8px;margin:6px 0;width:100%}</style>
+</head>
+<body>
+  <h2>3. Checkboxes (At least one)</h2>
+  
+  <form id="form3">
+    <label><input type="checkbox" id="c1" name="choices"> Option 1</label><br>
+    <label><input type="checkbox" id="c2" name="choices"> Option 2</label><br>
+    <label><input type="checkbox" id="c3" name="choices"> Option 3</label><br>
+    <button type="submit">Validate & Next</button>
+  </form>
+
+  <script>
+  
+document.getElementById('form3').addEventListener('submit', function(e){
+  e.preventDefault();
+  let c1 = document.getElementById('c1').checked;
+  let c2 = document.getElementById('c2').checked;
+  let c3 = document.getElementById('c3').checked;
+  if(!c1 && !c2 && !c3){ alert('At least one option must be selected.'); return false; }
+  alert('Selection is valid! Going to Date page.');
+  window.location.href = 'page4_date.html';
+  return true;
+});
+
+  </script>
+</body>
+</html>

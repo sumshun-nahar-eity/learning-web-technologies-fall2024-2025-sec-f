@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>1. Name Validation</title>
+  <style>body{font-family:system-ui;padding:18px;max-width:720px;margin:auto;}input{padding:8px;margin:6px 0;width:100%}</style>
+</head>
+<body>
+  <h2>1. Name Validation</h2>
+  
+  <form id="form1">
+    <label for="name">Full name</label>
+    <input id="name" name="name" placeholder="e.g. John Doe" />
+    <button type="submit">Validate & Next</button>
+  </form>
+
+  <script>
+  
+function isLetter(ch){
+  return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
+}
+
+function validateNameValue(name){
+  name = name.trim();
+  if(name === '') return 'Name cannot be empty.';
+  if(!isLetter(name[0])) return 'Name must start with a letter.';
+  let parts = name.split(' ').filter(function(p){return p.length>0});
+  if(parts.length < 2) return 'Name must contain at least two words.';
+  for(let i=0;i<name.length;i++){
+    let ch = name[i];
+    if(!(isLetter(ch) || ch === '.' || ch === '-' || ch === ' ')){
+      return 'Only letters, dot (.) and dash (-) are allowed.';
+    }
+  }
+  return '';
+}
+
+document.getElementById('form1').addEventListener('submit', function(e){
+  e.preventDefault();
+  let name = document.getElementById('name').value;
+  let err = validateNameValue(name);
+  if(err){ alert(err); return false; }
+  alert('Name is valid! Going to Email page.');
+  window.location.href = 'page2_email.html';
+  return true;
+});
+
+  </script>
+</body>
+</html>

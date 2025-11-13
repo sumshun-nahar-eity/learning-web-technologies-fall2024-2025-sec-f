@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>5. Group Check (At least one)</title>
+  <style>body{font-family:system-ui;padding:18px;max-width:720px;margin:auto;}input{padding:8px;margin:6px 0;width:100%}</style>
+</head>
+<body>
+  <h2>5. Group Check (At least one)</h2>
+  
+  <form id="form5">
+    <label><input type="checkbox" name="group" value="a"> A</label><br>
+    <label><input type="checkbox" name="group" value="b"> B</label><br>
+    <label><input type="checkbox" name="group" value="c"> C</label><br>
+    <button type="submit">Validate & Next</button>
+  </form>
+
+  <script>
+  
+document.getElementById('form5').addEventListener('submit', function(e){
+  e.preventDefault();
+  let boxes = document.getElementsByName('group');
+  let ok = false;
+  for(let i=0;i<boxes.length;i++) if(boxes[i].checked) ok = true;
+  if(!ok){ alert('Select at least one item from the group.'); return false; }
+  alert('Group selection valid! Going to dropdown page.');
+  window.location.href = 'page6_select.html';
+  return true;
+});
+
+  </script>
+</body>
+</html>

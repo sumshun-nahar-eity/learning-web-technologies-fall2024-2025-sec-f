@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>7. UserID and Picture</title>
+  <style>body{font-family:system-ui;padding:18px;max-width:720px;margin:auto;}input{padding:8px;margin:6px 0;width:100%}</style>
+</head>
+<body>
+  <h2>7. UserID and Picture</h2>
+  
+  <form id="form7">
+    <label for="uid">User ID (positive number)</label>
+    <input id="uid" name="uid" placeholder="e.g. 123">
+    <label for="pic">Picture (choose file)</label>
+    <input id="pic" name="pic" type="file" accept="image/*">
+    <button type="submit">Validate & Next</button>
+  </form>
+
+  <script>
+  
+document.getElementById('form7').addEventListener('submit', function(e){
+  e.preventDefault();
+  let uid = document.getElementById('uid').value.trim();
+  let pic = document.getElementById('pic').value.trim();
+  if(uid === '' || isNaN(uid) || parseInt(uid,10) <= 0) { alert('UserID must be a positive number.'); return false; }
+  if(pic === '') { alert('Please upload a picture.'); return false; }
+  alert('User and picture validated! Going to final assignment page.');
+  window.location.href = 'page8_assignment.html';
+  return true;
+});
+
+  </script>
+</body>
+</html>

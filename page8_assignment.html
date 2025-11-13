@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>8. Assignment - Combined Example (Final)</title>
+  <style>body{font-family:system-ui;padding:18px;max-width:720px;margin:auto;}input{padding:8px;margin:6px 0;width:100%}</style>
+</head>
+<body>
+  <h2>8. Assignment - Combined Example (Final)</h2>
+  
+  <form id="form8">
+    <label>Full name (two words, starts with letter)</label>
+    <input id="a_name">
+
+    <label>Email</label>
+    <input id="a_email">
+
+    <label>Gender</label>
+    <label><input type="radio" name="a_gender" value="m"> Male</label>
+    <label><input type="radio" name="a_gender" value="f"> Female</label>
+
+    <label>Hobbies (choose at least one)</label>
+    <label><input type="checkbox" name="a_hobby"> Sports</label>
+    <label><input type="checkbox" name="a_hobby"> Reading</label>
+
+    <label>Birth Day (dd-mm-yyyy)</label>
+    <input id="a_dd" placeholder="dd" style="width:30%;display:inline-block"> <input id="a_mm" placeholder="mm" style="width:30%;display:inline-block"> <input id="a_yy" placeholder="yyyy" style="width:30%;display:inline-block">
+
+    <label>Country</label>
+    <select id="a_country">
+      <option value="none">-- Select --</option>
+      <option value="bd">Bangladesh</option>
+      <option value="in">India</option>
+    </select>
+
+    <label>UserID</label>
+    <input id="a_uid">
+
+    <label>Picture</label>
+    <input id="a_pic" type="file" accept="image/*">
+
+    <button type="submit">Validate All (Finish)</button>
+  </form>
+  <p id="doneMsg" style="display:none;color:green;font-weight:bold;margin-top:12px"></p>
+  <p><a href="index.html">Back to index</a></p>
+
+  <script>
+  
+function isLetter(ch){return (ch>='A'&&ch<='Z')||(ch>='a'&&ch<='z');}
+function validateNameValue(name){
+  name = name.trim(); if(name==='') return 'Name cannot be empty.';
+  if(!isLetter(name[0])) return 'Name must start with a letter.';
+  let parts = name.split(' ').filter(function(p){return p.length>0}); if(parts.length<2) return 'Name must contain at least two words.';
+  for(let i=0;i<name.length;i++){ let ch=name[i]; if(!(isLetter(ch)||ch=='.'||ch=='-'||ch==' ')) return 'Name: only letters, dot and dash allowed.'; }
+  return '';
+}
+function validateEmailValue(email){ email = email.trim(); if(email==='') return 'Email cannot be empty.'; let at=email.indexOf('@'); let lastDot=email.lastIndexOf('.'); if(at<=0) return 'Invalid email'; if(lastDot<=at+1) return 'Invalid email'; if(lastDot>=email.length-1) return 'Invalid email'; if(email.indexOf(' ')>=0) return 'Invalid email'; return ''; }
+function isInteger(n){ return !isNaN(n) && Number.isInteger(Number(n)); }
+function validateDateValues(d,m,y){ if(d===''||m===''||y==='') return 'Date fields cannot be empty.'; if(!isInteger(d)||!isInteger(m)||!isInteger(y)) return 'Day, month and year must be integers.'; d=parseInt(d,10); m=parseInt(m,10); y=parseInt(y,10); if(d<0||d>31) return 'Day must be between 0-31.'; if(m<1||m>12) return 'Month must be 1-12.'; if(y<1900||y>2016) return 'Year must be between 1900 and 2016.'; let maxDay=31; if(m===2){ let leap=((y%4===0 && y%100!==0) || (y%400===0)); maxDay=leap?29:28; } else if([4,6,9,11].indexOf(m)>=0){ maxDay=30; } if(d>maxDay) return 'Invalid day for month/year.'; return ''; }
+
+document.getElementById('form8').addEventListener('submit', function(e){
+  e.preventDefault();
+  // Name
+  let name = document.getElementById('a_name').value;
+  let err = validateNameValue(name); if(err){ alert(err); return false; }
+  // Email
+  let mail = document.getElementById('a_email').value; err = validateEmailValue(mail); if(err){ alert(err); return false; }
+  // Gender (radio)
+  let genders = document.getElementsByName('a_gender'); let gsel=false; for(let i=0;i<genders.length;i++) if(genders[i].checked) gsel=true; if(!gsel){ alert('Select gender.'); return false; }
+  // Hobbies (checkbox)
+  let h = document.getElementsByName('a_hobby'); let hsel=false; for(let i=0;i<h.length;i++) if(h[i].checked) hsel=true; if(!hsel){ alert('Select at least one hobby.'); return false; }
+  // Date
+  let dd = document.getElementById('a_dd').value.trim(); let mm = document.getElementById('a_mm').value.trim(); let yy = document.getElementById('a_yy').value.trim(); err = validateDateValues(dd,mm,yy); if(err){ alert(err); return false; }
+  // Country select
+  let c = document.getElementById('a_country').value; if(c === 'none'){ alert('Choose a country.'); return false; }
+  // UID and pic
+  let uid = document.getElementById('a_uid').value.trim(); let pic = document.getElementById('a_pic').value.trim(); if(uid==='' || isNaN(uid) || parseInt(uid,10)<=0){ alert('UserID must be a positive number.'); return false; } if(pic===''){ alert('Please upload a picture.'); return false; }
+  // All validations passed -> show success message
+  var msg = document.getElementById('doneMsg');
+  msg.style.display = 'block';
+  msg.textContent = 'All fields validated successfully! You have completed the assignment.';
+  alert('All fields validated successfully!');
+  return true;
+});
+
+  </script>
+</body>
+</html>
