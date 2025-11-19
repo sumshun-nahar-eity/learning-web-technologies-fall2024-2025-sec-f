@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form Example</title>
+</head>
+<body>
+    <label for="AField">Name:</label>
+    <input type="text" id="AField" placeholder="Enter Name"> 
+
+    <label for="inputType">Choose input type:</label>
+    <select id="inputType">
+        <option value="text">Text</option>
+        <option value="password">Password</option>
+        <option value="email">Email</option>
+    </select>
+
+    <button id="addButton">Add</button><br> 
+
+    <h3>Saved Information:</h3>
+    <div id="output"></div>
+
+    <button id="saveButton">Save</button>
+    <div id="savedData"></div>
+
+    <script>
+        let allFields = [];
+
+        document.getElementById("addButton").addEventListener("click", function() {
+            let fieldValue = document.getElementById("AField").value;
+            let inputType = document.getElementById("inputType").value;
+
+            if (!fieldValue.trim()) {
+                alert('Please enter a name!');
+                return;
+            }
+
+            if (inputType === 'email' && !validateEmail(fieldValue)) {
+                alert('Please enter a valid email!');
+                return;
+            }
+
+            if (inputType === 'password' && fieldValue.length < 6) {
+                alert('Password must be at least 6 characters!');
+                return;
+            }
+
+            const newData = `Your data: ${fieldValue}, Type: ${inputType}`;
+
+            allFields.push({ textField: fieldValue, dynamicField: inputType });
+
+          
+            const outputDiv = document.getElementById('output');
+            const newEntry = document.createElement('div');
+            newEntry.textContent = newData;
+            outputDiv.appendChild(newEntry);
+
+            document.getElementById("AField").value = '';  
+        });
+
+        document.getElementById("saveButton").addEventListener("click", function() {
+            let savedDataDiv = document.getElementById("savedData");
+            savedDataDiv.innerHTML = "Saved Data: <br>";
+
+            allFields.forEach(function(field, index) {
+                savedDataDiv.innerHTML += `Field ${index + 1}: <br> Name: ${field.textField} <br> Type: ${field.dynamicField} <br><br>`;
+            });
+        }); 
+
+        
+      
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            return re.test(email);
+        }
+    </script>
+</body>
+</html>
